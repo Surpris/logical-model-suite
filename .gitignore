@@ -1,0 +1,5 @@
+# MCP settings and outputs
+.serena/
+
+# Environment variables
+.env
