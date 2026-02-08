@@ -11,5 +11,6 @@ This repository contains a suite of logical models for various purposes.
   - The reference implementation is defined in TypeScript.
 - To provide tools:
   - to validate logical data models.
+  - to generate typescript interfaces from logical data models.
   - to generate Prisma schema from logical data models.
   - to generate GraphQL schema from logical data models.
