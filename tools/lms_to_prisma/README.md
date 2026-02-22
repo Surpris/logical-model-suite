@@ -1,69 +1,69 @@
 # lms-to-prisma (Logical Model to Prisma Generator)
 
-論理データモデル（YAML）を Prisma スキーマに変換・拡張するジェネレーターです。
+A generator that converts and extends Logical Data Models (YAML) into Prisma Schemas.
 
-## 概要
+## Overview
 
-このプロジェクトは、ビジネス視点での**論理データモデル (YAML)** を、システム実装用の **Prisma Schema** へ自動変換することを目的としています。
-ドメインの定義とシステムの実装詳細（UUID、監査ログ、論理削除など）を分離し、YAML ファイルを「正（Single Source of Truth）」として管理することを可能にします。
+This project aims to automatically convert **Logical Data Models (YAML)** from a business perspective into **Prisma Schemas** for system implementation.
+It separates domain definitions from system implementation details (UUIDs, audit logs, logical deletion, etc.), allowing YAML files to be managed as the "Single Source of Truth".
 
-## 特徴
+## Features
 
-- **論理モデルからの自動変換**: YAML で定義したエンティティ、属性、リレーションシップを Prisma モデルに変換します。
-- **システムフィールドの自動注入**: すべてのモデルに `id` (UUID), `createdAt`, `updatedAt`, `deletedAt`（論理削除用）を自動的に追加します。
-- **命名規則の自動調整**: YAML 内のスネークケース（snake_case）を、Prisma 推奨のパスカルケース（PascalCase: モデル名）やキャメルケース（camelCase: フィールド名）に変換します。
-- **リレーションシップの解決**: YAML で定義された一方向のリレーションから、Prisma に必要な双方向リレーションを推論・生成します。
-- **システムモデルの結合**: グラフ構造を扱うための `UserDefinedRelationship` など、共通のシステムモデルを生成されたスキーマの末尾に自動結合します。
+- **Automatic Conversion from Logical Models**: Converts entities, attributes, and relationships defined in YAML into Prisma models.
+- **Automatic Injection of System Fields**: Automatically adds `id` (UUID), `createdAt`, `updatedAt`, and `deletedAt` (for logical deletion) to all models.
+- **Automatic Naming Convention Adjustment**: Converts snake_case in YAML to Prisma's recommended PascalCase (for model names) and camelCase (for field names).
+- **Relationship Resolution**: Infers and generates the bidirectional relationships required by Prisma from the unidirectional relationships defined in YAML.
+- **System Model Integration**: Automatically appends common system models, such as `UserDefinedRelationship` for handling graph structures, to the end of the generated schema.
 
-## 技術スタック
+## Tech Stack
 
-- **言語**: TypeScript (Node.js)
-- **データ形式**: YAML (`yaml` パッケージ)
-- **バリデーション**: AJV (JSON Schema)
-- **テスト**: Vitest
+- **Language**: TypeScript (Node.js)
+- **Data Format**: YAML (`yaml` package)
+- **Validation**: AJV (JSON Schema)
+- **Testing**: Vitest
 - **ORM**: Prisma
 
-## ディレクトリ構成
+## Directory Structure
 
-- `src/index.ts`: CLI エントリーポイント
-- `src/core/`: 変換ロジックのコア（`PrismaSchemaBuilder` 等）
-- `src/templates/`: スキーマに結合される静的な Prisma モデル
-- `sample/`: 論理データモデル（YAML）のサンプル
-- `schema/`: YAML バリデーション用の JSON Schema
-- `docs/`: 仕様書および実装計画
-- `prisma/`: 生成された Prisma スキーマの出力先
+- `src/index.ts`: CLI entry point
+- `src/core/`: Core conversion logic (`PrismaSchemaBuilder`, etc.)
+- `src/templates/`: Static Prisma models to be appended to the schema
+- `sample/`: Sample Logical Data Models (YAML)
+- `schema/`: JSON Schema for YAML validation
+- `docs/`: Specifications and implementation plans
+- `prisma/`: Output destination for the generated Prisma schema
 
-## 使い方
+## Usage
 
-### インストール
+### Installation
 
 ```bash
 npm install
 ```
 
-### スキーマ生成
+### Schema Generation
 
-デフォルトではカレントディレクトリの `logical_model.yaml` を読み込み、`prisma/schema.prisma` を出力します。
-サンプルを使用して実行する場合は、以下のように入力を指定して実行してください。
+By default, it reads `logical_model.yaml` in the current directory and outputs `prisma/schema.prisma`.
+To run with a sample, specify the input as follows:
 
 ```bash
 npm run generate:schema -- --input sample/logical_model.yaml
 ```
 
-### テストの実行
+### Running Tests
 
 ```bash
 npm test
 ```
 
-### 型チェックとリンター
+### Type Check and Linter
 
 ```bash
 npm run typecheck
 ```
 
-## 開発フロー
+## Development Workflow
 
-1. `sample/logical_model.yaml` などを編集し、ドメインモデルを定義します。
-2. `npm run generate:schema` を実行して Prisma スキーマを更新します。
-3. `prisma/schema.prisma` の差分を確認し、必要に応じてマイグレーションを実行します。
+1. Edit `sample/logical_model.yaml` or similar to define the domain model.
+2. Run `npm run generate:schema` to update the Prisma schema.
+3. Check the diff in `prisma/schema.prisma` and run migrations if necessary.

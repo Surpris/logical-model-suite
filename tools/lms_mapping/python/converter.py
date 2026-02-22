@@ -147,70 +147,21 @@ mock_dmp_data = {
 # ==========================================
 # 3. メイン実行ブロック
 # ==========================================
-def main():
+def main(src: str, mapping_fpath: str):
     # 実際のファイル読み込み（環境に合わせてパスを変更してください）
-    # with open('dmp_to_cao_mapping.yaml', 'r', encoding='utf-8') as f:
-    #     mapping_def = yaml.safe_load(f)
-    
-    # ここでは添付された mapping content を直接使用します
-    mapping_yaml_content = """
-mapping_id: "DMP_to_CAO_Mapping_v0.1"
-source_model: "ResearchDataManagementPlan_LogicalModel"
-target_model: "ResearchDataManagement_LogicalModel"
-entity_mappings:
-  - source_selector:
-      context: "http://schema.org/ResearchProject"
-    target_selector:
-      context: "http://schema.org/ResearchProject"
-    attribute_mappings:
-      - source_attribute: "project_number"
-        rule: "ignore" 
-        target_attribute: "project_name"
-    relationship_mappings:
-      - source_relationship: "has_datasets"
-        target_relationship: "belongs_to_project"
-        direction: "inverse"
-
-  - source_selector:
-      context: "http://schema.org/Dataset"
-    target_selector:
-      context: "http://schema.org/Dataset"
-    attribute_mappings:
-      - source_attribute: "title"
-        target_attribute: "data_name"
-      - source_attribute: "dataset_no"
-        target_attribute: "data_no"
-      - source_attribute: "access_policy"
-        target_attribute: "access_type"
-        target_path: "has_access_right.access_type"
-        rule: "map_values"
-        value_map:
-          "公開": "公開"
-          "共有": "共有"
-          "非共有・非公開": "非公開"
-    relationship_mappings:
-      - source_relationship: "collected_by"
-        target_relationship: "created_datasets"
-        direction: "inverse"
-
-  - source_selector:
-      context: "http://schema.org/Person"
-    target_selector:
-      context: "http://schema.org/Person"
-    attribute_mappings:
-      - source_attribute: "name"
-        target_attribute: "name"
-      - source_attribute: "contributor_id"
-        target_attribute: "person_id"
-"""
-    mapping_def = yaml.safe_load(mapping_yaml_content)
+    mapping_def: dict = {}
+    with open(mapping_fpath, 'r', encoding='utf-8') as f:
+        mapping_def = yaml.safe_load(f)
 
     # エンジン初期化
     engine = DataTransformationEngine(mapping_def)
 
     print("--- 変換開始 ---")
     # Project (Root) から変換開始
-    engine.process_entity(mock_dmp_data, "http://schema.org/ResearchProject")
+    src_data: dict = {}
+    with open(src, "r", encoding="utf-8") as f:
+        src_data = yaml.safe_load(f)
+    engine.process_entity(src_data, "http://schema.org/ResearchProject")
 
     print(f"--- 変換完了: {len(engine.results)} 個のエンティティを生成 ---")
     
@@ -230,4 +181,7 @@ entity_mappings:
         print(json.dumps(clean_for_print(entity), indent=2, ensure_ascii=False))
 
 if __name__ == "__main__":
-    main()
+    main(
+        "../../../samples/jsps_dmp/logical_model.yaml", 
+        "../../../samples/jsps_dmp/jsps-dmp_to_cao_mapping.yaml"
+    )
