@@ -5,7 +5,7 @@ import { generateTypeScript } from '../generator';
 
 async function main() {
   const targetPath = process.argv[2] || '.';
-  
+
   console.log(`🚀 Starting Generator Process...`);
   console.log(`📂 Target Path: "${targetPath}"`);
 
@@ -16,17 +16,19 @@ async function main() {
     if (stats.isDirectory()) {
       const files = fs.readdirSync(targetPath);
       filesToProcess = files
-        .filter(file => file.endsWith('.yaml') || file.endsWith('.yml'))
-        .map(file => path.join(targetPath, file));
-        
+        .filter((file) => file.endsWith('.yaml') || file.endsWith('.yml'))
+        .map((file) => path.join(targetPath, file));
+
       if (filesToProcess.length === 0) {
         console.warn(`⚠️  No YAML files found in directory: ${targetPath}`);
       }
     } else if (stats.isFile()) {
-       filesToProcess = [targetPath];
+      filesToProcess = [targetPath];
     } else {
-       console.error(`❌ Error: Path '${targetPath}' is valid but not a file or directory.`);
-       process.exit(1);
+      console.error(
+        `❌ Error: Path '${targetPath}' is valid but not a file or directory.`,
+      );
+      process.exit(1);
     }
   } catch (e: any) {
     console.error(`❌ Error accessing path '${targetPath}': ${e.message}`);

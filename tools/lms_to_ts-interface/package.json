@@ -1,6 +1,7 @@
 {
   "name": "lms_to_ts-interface",
   "version": "0.1.0",
+  "type": "module",
   "description": "Convert logical data models to TypeScript interfaces",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -18,7 +19,6 @@
   "keywords": [],
   "author": "Surpris & Gemini",
   "license": "Apache-2.0",
-  "type": "commonjs",
   "dependencies": {
     "@lms/core": "*",
     "js-yaml": "^4.1.1"

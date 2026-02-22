@@ -1,6 +1,6 @@
 import * as yaml from 'js-yaml';
 import { LogicalModelValidator, ErrorObject } from '@lms/core';
-import { YamlSchema, EntityDef, RelationshipDef } from './types';
+import { YamlSchema, EntityDef, RelationshipDef } from './types.js';
 
 export interface ValidationResult {
   valid: boolean;
