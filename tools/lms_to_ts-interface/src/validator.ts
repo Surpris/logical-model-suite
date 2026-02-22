@@ -25,9 +25,11 @@ export class ModelValidator {
     // A. Schema Validation (via @lms/core)
     const validationResult = LogicalModelValidator.validate(data);
     if (!validationResult.valid && validationResult.errors) {
-       validationResult.errors.forEach((err: ErrorObject) => {
-         errors.push(`[Schema] Path: ${err.instancePath} | Message: ${err.message}`);
-       });
+      validationResult.errors.forEach((err: ErrorObject) => {
+        errors.push(
+          `[Schema] Path: ${err.instancePath} | Message: ${err.message}`,
+        );
+      });
     }
 
     // B. Referential Integrity Validation (Logic)
@@ -36,7 +38,7 @@ export class ModelValidator {
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -44,14 +46,20 @@ export class ModelValidator {
     const errors: string[] = [];
     const entityNames = new Set(Object.keys(data.entities || {}));
 
-    for (const [entityName, entityDef] of Object.entries(data.entities || {}) as [string, EntityDef][]) {
+    for (const [entityName, entityDef] of Object.entries(
+      data.entities || {},
+    ) as [string, EntityDef][]) {
       if (!entityDef.relationships) continue;
 
-      for (const [relName, relDef] of Object.entries(entityDef.relationships) as [string, RelationshipDef][]) {
+      for (const [relName, relDef] of Object.entries(
+        entityDef.relationships,
+      ) as [string, RelationshipDef][]) {
         const target = relDef.target;
-        
+
         if (!entityNames.has(target)) {
-          errors.push(`[Integrity] Broken Link in [${entityName}]: relationship '${relName}' targets missing entity '${target}'`);
+          errors.push(
+            `[Integrity] Broken Link in [${entityName}]: relationship '${relName}' targets missing entity '${target}'`,
+          );
         }
       }
     }

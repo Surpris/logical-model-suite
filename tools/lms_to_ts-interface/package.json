@@ -6,8 +6,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "format": "prettier --write \"{src,scripts}/*.{ts,tsx,css,html}\"",
-    "lint": "spectral lint",
+    "format": "prettier --write \"src/**/*.{ts,tsx,css,html}\"",
+    "lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "lint:spectral": "spectral lint",
     "test": "ts-node ./src/bin/lms-val.ts",
     "type-check": "tsc -b --noEmit",
     "validate": "ts-node ./src/bin/lms-val.ts",

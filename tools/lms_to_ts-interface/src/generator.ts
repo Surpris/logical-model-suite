@@ -20,7 +20,10 @@ function getPrimaryKeyType(entityName: string, schema: YamlSchema): string {
   const entity = schema.entities[entityName];
   if (!entity) return 'string'; // Fallback
 
-  for (const [attrName, attr] of Object.entries(entity.attributes) as [string, AttributeDef][]) {
+  for (const [attrName, attr] of Object.entries(entity.attributes) as [
+    string,
+    AttributeDef,
+  ][]) {
     if (attr.primary_key) {
       return TYPE_MAPPING[attr.type] || 'string';
     }
@@ -30,7 +33,9 @@ function getPrimaryKeyType(entityName: string, schema: YamlSchema): string {
 
 // 文字列をPascalCaseに変換 (例: has_datasets -> HasDatasets)
 function toPascalCase(str: string): string {
-  return str.replace(/(^\w|_\w)/g, (match) => match.replace('_', '').toUpperCase());
+  return str.replace(/(^\w|_\w)/g, (match) =>
+    match.replace('_', '').toUpperCase(),
+  );
 }
 
 // JSDocコメント生成
@@ -59,15 +64,19 @@ export function generateTypeScript(yamlContent: string): string {
   lines.push('// ==========================================');
   lines.push('');
 
-  for (const [entityName, entityDef] of Object.entries(schema.entities || {}) as [string, EntityDef][]) {
+  for (const [entityName, entityDef] of Object.entries(
+    schema.entities || {},
+  ) as [string, EntityDef][]) {
     lines.push(generateJSDoc(entityDef.description));
     lines.push(`export interface ${entityName} {`);
 
     // Attributes
-    for (const [attrName, attrDef] of Object.entries(entityDef.attributes || {}) as [string, AttributeDef][]) {
+    for (const [attrName, attrDef] of Object.entries(
+      entityDef.attributes || {},
+    ) as [string, AttributeDef][]) {
       const isOptional = !attrDef.required;
       const doc = generateJSDoc(attrDef.description, attrDef.note);
-      
+
       let tsType = 'any';
       if (attrDef.type === 'Enum' && attrDef.options) {
         // String Union Typeとして生成
@@ -87,45 +96,58 @@ export function generateTypeScript(yamlContent: string): string {
   // 2. Relationships Generation (Edges)
   lines.push('// ==========================================');
   lines.push('// Relationships (Edges)');
-  lines.push('// Treated as independent interfaces for Property Graph capability');
+  lines.push(
+    '// Treated as independent interfaces for Property Graph capability',
+  );
   lines.push('// ==========================================');
   lines.push('');
 
-  for (const [sourceEntityName, entityDef] of Object.entries(schema.entities || {}) as [string, EntityDef][]) {
+  for (const [sourceEntityName, entityDef] of Object.entries(
+    schema.entities || {},
+  ) as [string, EntityDef][]) {
     if (!entityDef.relationships) continue;
 
-    for (const [relName, relDef] of Object.entries(entityDef.relationships) as [string, RelationshipDef][]) {
+    for (const [relName, relDef] of Object.entries(entityDef.relationships) as [
+      string,
+      RelationshipDef,
+    ][]) {
       const targetEntityName = relDef.target;
-      
+
       // Edge名の決定: Source_Relation_Target
       const edgeInterfaceName = `${sourceEntityName}_${toPascalCase(relName)}_${targetEntityName}`;
-      
+
       // SourceとTargetのID型を解決
       const sourceType = getPrimaryKeyType(sourceEntityName, schema);
       const targetType = getPrimaryKeyType(targetEntityName, schema);
 
-      lines.push(generateJSDoc(relDef.description, `Cardinality: ${relDef.cardinality}`));
+      lines.push(
+        generateJSDoc(relDef.description, `Cardinality: ${relDef.cardinality}`),
+      );
       lines.push(`export interface ${edgeInterfaceName} {`);
-      
+
       // Graph Edge Standard Properties
       lines.push(`  /** Relationship Type Identifier */`);
       lines.push(`  type: "${relName}";`);
-      
+
       lines.push(`  /** Source Entity ID (${sourceEntityName}) */`);
       lines.push(`  source_id: ${sourceType};`);
-      
+
       lines.push(`  /** Target Entity ID (${targetEntityName}) */`);
       lines.push(`  target_id: ${targetType};`);
 
       // Relationship Attributes
       if (relDef.attributes) {
-        for (const [attrName, attrDef] of Object.entries(relDef.attributes || {}) as [string, AttributeDef][]) {
+        for (const [attrName, attrDef] of Object.entries(
+          relDef.attributes || {},
+        ) as [string, AttributeDef][]) {
           const isOptional = !attrDef.required;
           const doc = generateJSDoc(attrDef.description, attrDef.note);
-          
+
           let tsType = 'any';
           if (attrDef.type === 'Enum' && attrDef.options) {
-            tsType = attrDef.options.map((opt: string) => `"${opt}"`).join(' | ');
+            tsType = attrDef.options
+              .map((opt: string) => `"${opt}"`)
+              .join(' | ');
           } else {
             tsType = TYPE_MAPPING[attrDef.type] || 'any';
           }
