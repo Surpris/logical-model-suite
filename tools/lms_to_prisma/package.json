@@ -2,7 +2,7 @@
   "name": "lms-to-prisma",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "directories": {
     "doc": "docs"
   },
@@ -12,23 +12,24 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
+    "build": "tsc",
     "typecheck": "npm run lint:fix && tsc -b --noEmit",
-    "gen:types": "json2ts schema/logical_model_schema.json > src/types/logical_model.ts",
     "generate:schema": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "type": "commonjs",
+  "dependencies": {
+    "@lms/core": "*"
+  },
   "devDependencies": {
     "@types/node": "^25.2.1",
     "@typescript-eslint/eslint-plugin": "^8.54.0",
     "@typescript-eslint/parser": "^8.54.0",
-    "ajv": "^8.17.1",
     "eslint": "^9.12.0",
     "eslint-plugin-unused-imports": "^4.3.0",
     "globals": "^17.3.0",
-    "json-schema-to-typescript": "^15.0.4",
     "prettier": "^3.8.1",
     "prisma": "^7.3.0",
     "text-encoding": "^0.7.0",

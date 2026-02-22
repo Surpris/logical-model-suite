@@ -2,12 +2,13 @@
   "name": "lms_to_ts-interface",
   "version": "0.1.0",
   "description": "Convert logical data models to TypeScript interfaces",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "ts-node ./src/validate.ts",
-    "validate": "ts-node ./src/validate.ts",
-    "generate": "ts-node ./src/generator.ts",
-    "build": "ts-node ./src/generator.ts",
+    "test": "ts-node ./src/bin/lms-val.ts",
+    "validate": "ts-node ./src/bin/lms-val.ts",
+    "generate": "ts-node ./src/bin/lms-gen.ts",
+    "build": "tsc",
     "all": "npm run validate && npm run generate",
     "lint": "spectral lint"
   },
@@ -16,7 +17,7 @@
   "license": "Apache-2.0",
   "type": "commonjs",
   "dependencies": {
-    "ajv": "^8.17.1",
+    "@lms/core": "*",
     "js-yaml": "^4.1.1"
   },
   "devDependencies": {
