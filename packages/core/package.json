@@ -1,0 +1,30 @@
+{
+  "name": "@lms/core",
+  "version": "0.1.0",
+  "description": "Core package for logical model suite containing schemas, types and common logic",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src/schemas"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "test": "echo 'Error: no test specified' && exit 1",
+    "generate:types": "ts-node scripts/generate-types.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.0",
+    "json-schema-to-typescript": "^15.0.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
