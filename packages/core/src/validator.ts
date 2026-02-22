@@ -22,15 +22,24 @@ addFormats(ajv);
 
 const validators = {
   logical_model: ajv.compile<LogicalModel>(logicalModelSchema as any),
-  logical_model_with_context: ajv.compile<LogicalModelWithContext>(logicalModelWithContextSchema as any),
-  separated_logical_model: ajv.compile<SeparatedLogicalModel>(separatedLogicalModelSchema as any),
-  logical_model_mapping: ajv.compile<LogicalModelMapping>(logicalModelMappingSchema as any),
+  logical_model_with_context: ajv.compile<LogicalModelWithContext>(
+    logicalModelWithContextSchema as any,
+  ),
+  separated_logical_model: ajv.compile<SeparatedLogicalModel>(
+    separatedLogicalModelSchema as any,
+  ),
+  logical_model_mapping: ajv.compile<LogicalModelMapping>(
+    logicalModelMappingSchema as any,
+  ),
 };
 
 export type ModelType = keyof typeof validators;
 
 export class LogicalModelValidator {
-  static validate(data: unknown, type: ModelType = 'logical_model'): { valid: boolean; errors?: ErrorObject[] } {
+  static validate(
+    data: unknown,
+    type: ModelType = 'logical_model',
+  ): { valid: boolean; errors?: ErrorObject[] } {
     const validate = validators[type];
     const valid = validate(data);
     if (!valid) {
@@ -39,7 +48,10 @@ export class LogicalModelValidator {
     return { valid: true };
   }
 
-  static validateFile(filePath: string, type: ModelType = 'logical_model'): { valid: boolean; errors?: ErrorObject[]; data?: any } {
+  static validateFile(
+    filePath: string,
+    type: ModelType = 'logical_model',
+  ): { valid: boolean; errors?: ErrorObject[]; data?: any } {
     try {
       const content = fs.readFileSync(filePath, 'utf-8');
       const data = yaml.load(content);

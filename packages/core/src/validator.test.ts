@@ -18,11 +18,11 @@ describe('LogicalModelValidator', () => {
             type: 'String',
             description: 'User ID',
             required: true,
-            primary_key: true
-          }
-        }
-      }
-    }
+            primary_key: true,
+          },
+        },
+      },
+    },
   };
 
   const validLogicalModelWithContext = {
@@ -36,17 +36,17 @@ describe('LogicalModelValidator', () => {
           name: {
             context: 'http://schema.org/name',
             type: 'String',
-            description: 'Name'
-          }
-        }
-      }
-    }
+            description: 'Name',
+          },
+        },
+      },
+    },
   };
 
   const validSeparatedLogicalModelMaster = {
     schema_version: '1.0',
     model_name: 'SeparatedModel',
-    description: 'A separated model'
+    description: 'A separated model',
   };
 
   const validSeparatedLogicalModelFragment = {
@@ -56,11 +56,11 @@ describe('LogicalModelValidator', () => {
         attributes: {
           attr: {
             type: 'String',
-            description: 'Attr'
-          }
-        }
-      }
-    }
+            description: 'Attr',
+          },
+        },
+      },
+    },
   };
 
   const validLogicalModelMapping = {
@@ -74,11 +74,11 @@ describe('LogicalModelValidator', () => {
         attribute_mappings: [
           {
             source_attribute: 'src_attr',
-            target_attribute: 'tgt_attr'
-          }
-        ]
-      }
-    ]
+            target_attribute: 'tgt_attr',
+          },
+        ],
+      },
+    ],
   };
 
   beforeEach(() => {
@@ -92,32 +92,47 @@ describe('LogicalModelValidator', () => {
     });
 
     it('should validate logical_model_with_context', () => {
-      const result = LogicalModelValidator.validate(validLogicalModelWithContext, 'logical_model_with_context');
+      const result = LogicalModelValidator.validate(
+        validLogicalModelWithContext,
+        'logical_model_with_context',
+      );
       expect(result.valid).toBe(true);
     });
 
     it('should validate separated_logical_model (master)', () => {
-      const result = LogicalModelValidator.validate(validSeparatedLogicalModelMaster, 'separated_logical_model');
+      const result = LogicalModelValidator.validate(
+        validSeparatedLogicalModelMaster,
+        'separated_logical_model',
+      );
       expect(result.valid).toBe(true);
     });
 
     it('should validate separated_logical_model (fragment)', () => {
-      const result = LogicalModelValidator.validate(validSeparatedLogicalModelFragment, 'separated_logical_model');
+      const result = LogicalModelValidator.validate(
+        validSeparatedLogicalModelFragment,
+        'separated_logical_model',
+      );
       expect(result.valid).toBe(true);
     });
 
     it('should validate logical_model_mapping', () => {
-      const result = LogicalModelValidator.validate(validLogicalModelMapping, 'logical_model_mapping');
+      const result = LogicalModelValidator.validate(
+        validLogicalModelMapping,
+        'logical_model_mapping',
+      );
       expect(result.valid).toBe(true);
     });
 
     it('should return valid: false for an invalid schema', () => {
       const invalidLogicalModel = {
         schema_version: '1.0',
-        model_name: 'TestModel'
+        model_name: 'TestModel',
         // Missing entities
       };
-      const result = LogicalModelValidator.validate(invalidLogicalModel, 'logical_model');
+      const result = LogicalModelValidator.validate(
+        invalidLogicalModel,
+        'logical_model',
+      );
       expect(result.valid).toBe(false);
       expect(result.errors).toBeDefined();
     });
@@ -127,11 +142,11 @@ describe('LogicalModelValidator', () => {
     it('should return valid: true for a valid file', () => {
       const filePath = 'valid.yaml';
       const fileContent = yaml.dump(validLogicalModel);
-      
+
       vi.mocked(fs.readFileSync).mockReturnValue(fileContent);
 
       const result = LogicalModelValidator.validateFile(filePath);
-      
+
       expect(fs.readFileSync).toHaveBeenCalledWith(filePath, 'utf-8');
       expect(result.valid).toBe(true);
       expect(result.data).toEqual(validLogicalModel);
@@ -140,11 +155,14 @@ describe('LogicalModelValidator', () => {
     it('should handle different model types in files', () => {
       const filePath = 'mapping.yaml';
       const fileContent = yaml.dump(validLogicalModelMapping);
-      
+
       vi.mocked(fs.readFileSync).mockReturnValue(fileContent);
 
-      const result = LogicalModelValidator.validateFile(filePath, 'logical_model_mapping');
-      
+      const result = LogicalModelValidator.validateFile(
+        filePath,
+        'logical_model_mapping',
+      );
+
       expect(result.valid).toBe(true);
       expect(result.data).toEqual(validLogicalModelMapping);
     });
@@ -152,13 +170,13 @@ describe('LogicalModelValidator', () => {
     it('should handle file read errors', () => {
       const filePath = 'nonexistent.yaml';
       const error = new Error('File not found');
-      
+
       vi.mocked(fs.readFileSync).mockImplementation(() => {
         throw error;
       });
 
       const result = LogicalModelValidator.validateFile(filePath);
-      
+
       expect(result.valid).toBe(false);
       expect(result.errors).toBeDefined();
       expect(result.errors?.[0].keyword).toBe('parse');
@@ -167,11 +185,11 @@ describe('LogicalModelValidator', () => {
     it('should handle yaml parse errors', () => {
       const filePath = 'malformed.yaml';
       const fileContent = 'invalid: yaml: content: [';
-      
+
       vi.mocked(fs.readFileSync).mockReturnValue(fileContent);
 
       const result = LogicalModelValidator.validateFile(filePath);
-      
+
       expect(result.valid).toBe(false);
       expect(result.errors).toBeDefined();
       expect(result.errors?.[0].keyword).toBe('parse');
