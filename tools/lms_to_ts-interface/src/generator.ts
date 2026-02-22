@@ -1,5 +1,10 @@
 import * as yaml from 'js-yaml';
-import { YamlSchema, EntityDef, AttributeDef, RelationshipDef } from './types';
+import {
+  YamlSchema,
+  EntityDef,
+  AttributeDef,
+  RelationshipDef,
+} from './types.js';
 
 // データ型マッピング設定
 const TYPE_MAPPING: { [key: string]: string } = {

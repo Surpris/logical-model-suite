@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateTypeScript } from '../generator';
+import { generateTypeScript } from '../generator.js';
 
 async function main() {
   const targetPath = process.argv[2] || '.';

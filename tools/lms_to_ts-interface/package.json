@@ -6,14 +6,14 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc -b",
     "format": "prettier --write \"src/**/*.{ts,tsx,css,html}\"",
     "lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "lint:spectral": "spectral lint",
-    "test": "ts-node ./src/bin/lms-val.ts",
+    "test": "node ./dist/bin/lms-val.js ../../samples/jsps_dmp/logical_model.yaml",
     "type-check": "tsc -b --noEmit",
-    "validate": "ts-node ./src/bin/lms-val.ts",
-    "generate": "ts-node ./src/bin/lms-gen.ts",
+    "validate": "node ./dist/bin/lms-val.js",
+    "generate": "node ./dist/bin/lms-gen.js",
     "all": "npm run validate && npm run generate"
   },
   "keywords": [],

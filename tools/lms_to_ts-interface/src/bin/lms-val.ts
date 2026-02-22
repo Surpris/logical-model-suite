@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import * as fs from 'fs';
 import * as path from 'path';
-import { ModelValidator } from '../validator';
+import { ModelValidator } from '../validator.js';
 
 async function main() {
   const targetPath = process.argv[2] || '.';

@@ -34,7 +34,7 @@
    - `dist` ディレクトリを削除し、`tsc -b` で再ビルドを実行。
    - `dist/index.d.ts` 等の内容が、拡張子付きのインポート/エクスポートになっていることを確認。
 
-### Phase 2: `tools/lms_to_ts-interface` の修正
+### Phase 2: `tools/lms_to_ts-interface` の修正　→　完了
 
 1. **相対インポートの拡張子補完**
    - 以下のファイルのインポート文に `.js` 拡張子を追加。
