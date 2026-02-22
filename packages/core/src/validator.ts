@@ -4,6 +4,8 @@ import * as yaml from 'js-yaml';
 import { LogicalDataModelIntermediateRepresentationSchema } from './types/logical_model';
 import schema from './schemas/logical_model/logical_model_schema_definition.json';
 
+export { ErrorObject };
+
 const ajv = new Ajv();
 const validate = ajv.compile<LogicalDataModelIntermediateRepresentationSchema>(schema as any);
 
