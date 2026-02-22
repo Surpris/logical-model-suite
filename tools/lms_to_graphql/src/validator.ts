@@ -1,58 +1,31 @@
-import * as fs from 'fs';
-import * as path from 'path';
-import Ajv from 'ajv';
-import { LogicalModel } from './types';
+import { LogicalModelValidator, ErrorObject } from '@lms/core';
+import { LogicalModel, Entity, Relationship } from './types';
 
 /**
- * 論理データモデルのバリデーションを行うクラス。
- * JSON Schema による構造チェックと、エンティティ間の参照整合性チェックを提供します。
+ * Validates the logical model using @lms/core validator and additional referential integrity checks.
  */
 export class Validator {
-  private ajv: Ajv;
-  private validateSchema: any;
-  private schemaPath: string;
-
   /**
-   * Validator インスタンスを初期化し、JSON Schema をロードします。
-   */
-  constructor() {
-    this.ajv = new Ajv({ allErrors: true });
-    // スキーマファイルはプロジェクトルートの schema/logical_model_schema.json にあると想定
-    this.schemaPath = path.resolve(process.cwd(), 'schema/logical_model_schema.json');
-    this.loadSchema();
-  }
-
-  /**
-   * 指定されたパスから JSON Schema を読み込み、コンパイルします。
-   * @private
-   */
-  private loadSchema() {
-    if (!fs.existsSync(this.schemaPath)) {
-      throw new Error(`Schema file not found at: ${this.schemaPath}`);
-    }
-    const schemaJson = JSON.parse(fs.readFileSync(this.schemaPath, 'utf8'));
-    this.validateSchema = this.ajv.compile(schemaJson);
-  }
-
-  /**
-   * 与えられたデータのバリデーションを実行します。
-   * @param data バリデーション対象のデータ
-   * @returns バリデーション結果（有効かどうかとエラーメッセージの配列）
+   * Validates the given data against the schema and referential integrity rules.
+   * @param data The data to validate.
+   * @returns An object containing a validity flag and a list of error strings.
    */
   public validate(data: any): { valid: boolean; errors: string[] } {
-    const valid = this.validateSchema(data);
     const errors: string[] = [];
 
-    if (!valid && this.validateSchema.errors) {
-      this.validateSchema.errors.forEach((err: any) => {
+    // 1. Schema Validation (via @lms/core)
+    const result = LogicalModelValidator.validate(data);
+    if (!result.valid && result.errors) {
+      result.errors.forEach((err: ErrorObject) => {
         errors.push(`Schema Error: Path ${err.instancePath} - ${err.message}`);
       });
     }
 
-    // 論理バリデーション（参照整合性）
-    if (data.entities) {
-        const integrityErrors = this.checkReferentialIntegrity(data as LogicalModel);
-        errors.push(...integrityErrors);
+    // 2. Referential Integrity Validation
+    // We attempt this even if schema validation failed, providing the structure allows it.
+    if (data && typeof data === 'object' && 'entities' in data) {
+      const integrityErrors = this.checkReferentialIntegrity(data as LogicalModel);
+      errors.push(...integrityErrors);
     }
 
     return {
@@ -62,25 +35,24 @@ export class Validator {
   }
 
   /**
-   * エンティティ間の参照整合性（リレーションのターゲットが存在するか）をチェックします。
-   * @param data 論理データモデル
-   * @private
-   * @returns 整合性エラーの配列
+   * Checks if all relationship targets exist as entities.
+   * @param data The logical model.
+   * @returns A list of error messages.
    */
   private checkReferentialIntegrity(data: LogicalModel): string[] {
     const errors: string[] = [];
-    const entityNames = new Set(Object.keys(data.entities));
+    const entities = data.entities || {};
+    const entityNames = new Set(Object.keys(entities));
 
-    for (const [entityName, entity] of Object.entries(data.entities)) {
+    for (const [entityName, entity] of Object.entries(entities)) {
       if (entity.relationships) {
         for (const [relName, rel] of Object.entries(entity.relationships)) {
-            if (!entityNames.has(rel.target)) {
-                errors.push(`Reference Error: Entity '${entityName}' relationship '${relName}' points to missing entity '${rel.target}'`);
-            }
+          if (!entityNames.has(rel.target)) {
+            errors.push(`Reference Error: Entity '${entityName}' relationship '${relName}' points to missing entity '${rel.target}'`);
+          }
         }
       }
     }
     return errors;
   }
 }
-
