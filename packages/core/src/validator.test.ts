@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import * as fs from 'fs';
 import * as yaml from 'js-yaml';
-import { LogicalModelValidator } from './validator';
+import { LogicalModelValidator } from './validator.js';
 
 vi.mock('fs');
 
