@@ -16,7 +16,7 @@
 
 ## 3. 具体的な作業手順
 
-### Phase 1: `packages/core` の修正
+### Phase 1: `packages/core` の修正　→　完了
 
 1. **`packages/core/package.json` の更新**
    - `exports` フィールドを追加し、型定義と実装のパスを明示する。

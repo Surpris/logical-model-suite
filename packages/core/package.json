@@ -5,6 +5,12 @@
   "description": "Core package for logical model suite containing schemas, types and common logic",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "files": [
     "dist",
     "src/schemas"
