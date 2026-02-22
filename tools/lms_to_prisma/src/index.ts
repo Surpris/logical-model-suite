@@ -1,8 +1,8 @@
 import { parseArgs } from 'node:util';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { parse } from 'yaml';
 import { PrismaSchemaBuilder } from './core/PrismaSchemaBuilder';
+import { loadLogicalModel } from './core/loader';
 import { LogicalDataModelIntermediateRepresentationSchema } from './types/logical_model';
 
 // Template for UserDefinedRelationship
@@ -45,18 +45,14 @@ async function main() {
     process.exit(1);
   }
 
-  // 1. YAMLの読み込み
-  const yamlContent = fs.readFileSync(inputPath, 'utf-8');
+  // 1. YAMLの読み込み & バリデーション
   let logicalModel: LogicalDataModelIntermediateRepresentationSchema;
-  
   try {
-    logicalModel = parse(yamlContent) as LogicalDataModelIntermediateRepresentationSchema;
-  } catch (e) {
-    console.error('Error parsing YAML:', e);
+    logicalModel = loadLogicalModel(inputPath);
+  } catch (e: any) {
+    console.error('Error loading/validating model:', e.message);
     process.exit(1);
   }
-
-  // TODO: 必要に応じてAJV等でスキーマ検証を実行 (今回は最小実装のためスキップ)
 
   // 2. Prismaロジックの生成
   const builder = new PrismaSchemaBuilder();

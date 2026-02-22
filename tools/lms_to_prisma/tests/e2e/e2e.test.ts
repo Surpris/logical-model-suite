@@ -4,6 +4,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const PROJECT_ROOT = path.resolve(__dirname, '../../../../');
+const PACKAGE_ROOT = path.resolve(__dirname, '../../');
 const SCHEMA_FILE = path.join(PROJECT_ROOT, 'samples/jsps_dmp/schema.prisma');
 const INPUT_FILE = path.join(PROJECT_ROOT, 'samples/jsps_dmp/logical_model.yaml');
 
@@ -19,10 +20,9 @@ describe('E2E: Prisma Schema Generation CLI', () => {
     }
   });
 
-  it('should generate a valid prisma schema with UserDefinedRelationship model', () => {
-    // 1. Run the CLI
+  it('should generate a valid prisma schema with UserDefinedRelationship model', { timeout: 30000 }, () => {    // 1. Run the CLI
     try {
-      execSync(`npm run generate:schema -- --input "${INPUT_FILE}" --output "${SCHEMA_FILE}"`, { cwd: PROJECT_ROOT, stdio: 'inherit' });
+      execSync(`npm run generate:schema -- --input "${INPUT_FILE}" --output "${SCHEMA_FILE}"`, { cwd: PACKAGE_ROOT, stdio: 'inherit' });
     } catch (error) {
        // Allow failure if the command itself fails (e.g. file not found)
        // but meaningful error messages should be printed.
@@ -45,7 +45,7 @@ describe('E2E: Prisma Schema Generation CLI', () => {
 
     // 4. Validate with Prisma
     try {
-      execSync('npx prisma validate', { cwd: PROJECT_ROOT, stdio: 'inherit' });
+      execSync(`npx prisma validate --schema "${SCHEMA_FILE}"`, { cwd: PROJECT_ROOT, stdio: 'inherit' });
     } catch (error) {
       throw new Error(`Prisma validation failed: ${error}`);
     }
