@@ -20,7 +20,7 @@ function getPrimaryKeyType(entityName: string, schema: YamlSchema): string {
   const entity = schema.entities[entityName];
   if (!entity) return 'string'; // Fallback
 
-  for (const [attrName, attr] of Object.entries(entity.attributes)) {
+  for (const [attrName, attr] of Object.entries(entity.attributes) as [string, AttributeDef][]) {
     if (attr.primary_key) {
       return TYPE_MAPPING[attr.type] || 'string';
     }
@@ -59,19 +59,19 @@ export function generateTypeScript(yamlContent: string): string {
   lines.push('// ==========================================');
   lines.push('');
 
-  for (const [entityName, entityDef] of Object.entries(schema.entities || {})) {
+  for (const [entityName, entityDef] of Object.entries(schema.entities || {}) as [string, EntityDef][]) {
     lines.push(generateJSDoc(entityDef.description));
     lines.push(`export interface ${entityName} {`);
 
     // Attributes
-    for (const [attrName, attrDef] of Object.entries(entityDef.attributes || {})) {
+    for (const [attrName, attrDef] of Object.entries(entityDef.attributes || {}) as [string, AttributeDef][]) {
       const isOptional = !attrDef.required;
       const doc = generateJSDoc(attrDef.description, attrDef.note);
       
       let tsType = 'any';
       if (attrDef.type === 'Enum' && attrDef.options) {
         // String Union Typeとして生成
-        tsType = attrDef.options.map(opt => `"${opt}"`).join(' | ');
+        tsType = attrDef.options.map((opt: string) => `"${opt}"`).join(' | ');
       } else {
         tsType = TYPE_MAPPING[attrDef.type] || 'any';
       }
@@ -91,10 +91,10 @@ export function generateTypeScript(yamlContent: string): string {
   lines.push('// ==========================================');
   lines.push('');
 
-  for (const [sourceEntityName, entityDef] of Object.entries(schema.entities || {})) {
+  for (const [sourceEntityName, entityDef] of Object.entries(schema.entities || {}) as [string, EntityDef][]) {
     if (!entityDef.relationships) continue;
 
-    for (const [relName, relDef] of Object.entries(entityDef.relationships)) {
+    for (const [relName, relDef] of Object.entries(entityDef.relationships) as [string, RelationshipDef][]) {
       const targetEntityName = relDef.target;
       
       // Edge名の決定: Source_Relation_Target
@@ -119,13 +119,13 @@ export function generateTypeScript(yamlContent: string): string {
 
       // Relationship Attributes
       if (relDef.attributes) {
-        for (const [attrName, attrDef] of Object.entries(relDef.attributes || {})) {
+        for (const [attrName, attrDef] of Object.entries(relDef.attributes || {}) as [string, AttributeDef][]) {
           const isOptional = !attrDef.required;
           const doc = generateJSDoc(attrDef.description, attrDef.note);
           
           let tsType = 'any';
           if (attrDef.type === 'Enum' && attrDef.options) {
-            tsType = attrDef.options.map(opt => `"${opt}"`).join(' | ');
+            tsType = attrDef.options.map((opt: string) => `"${opt}"`).join(' | ');
           } else {
             tsType = TYPE_MAPPING[attrDef.type] || 'any';
           }
