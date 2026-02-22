@@ -1,6 +1,7 @@
 {
   "name": "@lms/core",
   "version": "0.1.0",
+  "type": "module",
   "description": "Core package for logical model suite containing schemas, types and common logic",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
