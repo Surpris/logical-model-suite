@@ -1,13 +1,16 @@
 import { parseArgs } from 'node:util';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
-import { PrismaSchemaBuilder } from './core/PrismaSchemaBuilder';
-import { loadLogicalModel } from './core/loader';
-import { LogicalDataModelIntermediateRepresentationSchema } from './types/logical_model';
+import { fileURLToPath } from 'node:url';
+import { PrismaSchemaBuilder } from './core/PrismaSchemaBuilder.js';
+import { loadLogicalModel } from './core/loader.js';
+import { LogicalDataModelIntermediateRepresentationSchema } from './types/logical_model.js';
 
 // Template for UserDefinedRelationship
 // Depending on execution context (ts-node vs node dist), this might vary.
 // For development with ts-node, src/templates is adjacent to src/index.ts.
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const TEMPLATE_PATH = path.join(__dirname, 'templates', 'UserDefinedRelationship.prisma');
 
 // Default paths

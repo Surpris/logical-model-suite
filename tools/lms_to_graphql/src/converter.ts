@@ -1,4 +1,4 @@
-import { LogicalModel, Entity, Attribute, Relationship } from './types';
+import { LogicalModel, Entity, Attribute, Relationship } from './types.js';
 
 /**
  * 論理モデルを GraphQL SDL 文字列に変換します。

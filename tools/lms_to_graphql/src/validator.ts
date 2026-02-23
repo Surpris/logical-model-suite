@@ -1,5 +1,5 @@
 import { LogicalModelValidator, ErrorObject } from '@lms/core';
-import { LogicalModel, Entity, Relationship } from './types';
+import { LogicalModel, Entity, Relationship } from './types.js';
 
 /**
  * Validates the logical model using @lms/core validator and additional referential integrity checks.

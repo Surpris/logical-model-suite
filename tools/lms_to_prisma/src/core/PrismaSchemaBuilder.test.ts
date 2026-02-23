@@ -1,7 +1,7 @@
 
 import { describe, it, expect } from 'vitest';
-import { PrismaSchemaBuilder } from './PrismaSchemaBuilder';
-import { Entity, LogicalDataModelIntermediateRepresentationSchema } from '../types/logical_model';
+import { PrismaSchemaBuilder } from './PrismaSchemaBuilder.js';
+import { Entity, LogicalDataModelIntermediateRepresentationSchema } from '../types/logical_model.js';
 
 describe('PrismaSchemaBuilder', () => {
   describe('convertEntity', () => {

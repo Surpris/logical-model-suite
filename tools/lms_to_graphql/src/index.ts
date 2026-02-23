@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
 import { program } from 'commander';
-import { convertLogicalModelToGraphQL } from './converter';
-import { LogicalModel } from './types';
-import { Validator } from './validator';
+import { convertLogicalModelToGraphQL } from './converter.js';
+import { LogicalModel } from './types.js';
+import { Validator } from './validator.js';
 
 /**
  * CLI のエントリポイント。

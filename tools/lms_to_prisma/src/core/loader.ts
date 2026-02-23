@@ -1,7 +1,7 @@
 import fs from "fs";
 import yaml from "yaml";
 import { LogicalModelValidator } from "@lms/core";
-import { LogicalDataModelIntermediateRepresentationSchema } from "../types/logical_model";
+import { LogicalDataModelIntermediateRepresentationSchema } from "../types/logical_model.js";
 
 export function loadLogicalModel(
   filePath: string,
