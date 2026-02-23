@@ -48,6 +48,8 @@
 
 1. **`tools/lms_to_prisma` の `tsconfig` 確認**
    - `NodeNext` を使用している場合は、同様に相対インポートの拡張子を確認・修正。
+1. **`tools/lms_to_graphql` の `tsconfig` 確認**
+   - `NodeNext` を使用している場合は、同様に相対インポートの拡張子を確認・修正。
 
 ## 4. 検証項目
 
