@@ -7,8 +7,9 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
-    "format": "prettier --write \"src/**/*.{ts,tsx,css,html}\"",
-    "lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
     "lint:spectral": "spectral lint",
     "test": "node ./dist/bin/lms-val.js ../../samples/jsps_dmp/logical_model.yaml",
     "typecheck": "tsc -b --noEmit",
