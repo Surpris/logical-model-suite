@@ -56,8 +56,9 @@ async function main() {
   let logicalModel: LogicalDataModelIntermediateRepresentationSchema;
   try {
     logicalModel = loadLogicalModel(inputPath);
-  } catch (e: any) {
-    console.error("Error loading/validating model:", e.message);
+  } catch (e: unknown) {
+    const errorMessage = e instanceof Error ? e.message : String(e);
+    console.error("Error loading/validating model:", errorMessage);
     process.exit(1);
   }
 
