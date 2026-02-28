@@ -1,7 +1,7 @@
 module.exports = (targetEntityName, _options, { document }) => {
   // YAML全体を取得
   const data = document.data;
-  
+
   if (!data || !data.entities) {
     return; // 構造自体がおかしい場合はSchemaバリデーションに任せる
   }

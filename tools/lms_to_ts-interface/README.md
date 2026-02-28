@@ -60,12 +60,12 @@ Define your Logical Model in a YAML file (e.g., `model.yaml`).
 ### Structure
 
 ```yaml
-schema_version: "1.0"
-model_name: "MyProject"
+schema_version: '1.0'
+model_name: 'MyProject'
 
 entities:
   User:
-    description: "System user"
+    description: 'System user'
     attributes:
       id:
         type: String
@@ -76,10 +76,10 @@ entities:
         required: true
       role:
         type: Enum
-        options: ["Admin", "User", "Guest"]
+        options: ['Admin', 'User', 'Guest']
 
   Group:
-    description: "User group"
+    description: 'User group'
     attributes:
       id:
         type: String
@@ -87,12 +87,12 @@ entities:
     relationships:
       has_member:
         target: User
-        cardinality: "1:N"
-        description: "Group members"
+        cardinality: '1:N'
+        description: 'Group members'
         attributes:
           joined_at:
             type: DateTime
-            description: "Date when user joined the group"
+            description: 'Date when user joined the group'
 ```
 
 ### Generated Output (`model_types.ts`)
@@ -104,7 +104,7 @@ entities:
 export interface User {
   id: string;
   name: string;
-  role?: "Admin" | "User" | "Guest";
+  role?: 'Admin' | 'User' | 'Guest';
 }
 
 /**
@@ -124,7 +124,7 @@ export interface Group {
  */
 export interface Group_HasMember_User {
   /** Relationship Type Identifier */
-  type: "has_member";
+  type: 'has_member';
   /** Source Entity ID (Group) */
   source_id: string;
   /** Target Entity ID (User) */

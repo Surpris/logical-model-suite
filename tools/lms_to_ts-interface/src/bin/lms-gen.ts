@@ -31,7 +31,9 @@ async function main() {
       process.exit(1);
     }
   } catch (e: unknown) {
-    console.error(`❌ Error accessing path '${targetPath}': ${(e as Error).message}`);
+    console.error(
+      `❌ Error accessing path '${targetPath}': ${(e as Error).message}`,
+    );
     process.exit(1);
   }
 
