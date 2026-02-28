@@ -44,11 +44,11 @@ npm start -- ./sample/logical_model.yaml -o ./dist/output
 
 ## マッピングルール
 
-| 論理モデル | GraphQL | 補足 |
-| :--- | :--- | :--- |
-| **Entity** | `type` | エンティティ名が型名になります。 |
-| **Attribute** | Field | `primary_key: true` の場合は `ID!` 型になります。 |
-| **Relationship** | Field | カーディナリティが `..:N` または `N:M` の場合はリスト型 `[...]` になります。 |
+| 論理モデル                       | GraphQL             | 補足                                                                           |
+| :------------------------------- | :------------------ | :----------------------------------------------------------------------------- |
+| **Entity**                       | `type`              | エンティティ名が型名になります。                                               |
+| **Attribute**                    | Field               | `primary_key: true` の場合は `ID!` 型になります。                              |
+| **Relationship**                 | Field               | カーディナリティが `..:N` または `N:M` の場合はリスト型 `[...]` になります。   |
 | **Relationship (w/ attributes)** | Intermediate `type` | リレーションに属性がある場合、`EntityNameRelName` という中間型が生成されます。 |
 
 ### リレーションシップ属性の例
@@ -58,12 +58,12 @@ npm start -- ./sample/logical_model.yaml -o ./dist/output
 ```yaml
 relationships:
   managed_by:
-    target: "Contributor"
-    cardinality: "0:1"
+    target: 'Contributor'
+    cardinality: '0:1'
     attributes:
       assigned_at:
-        type: "Date"
-        description: "アサイン日"
+        type: 'Date'
+        description: 'アサイン日'
 ```
 
 以下のような GraphQL が生成されます：

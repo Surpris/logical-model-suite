@@ -5,6 +5,10 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "typecheck": "npm run lint:fix && tsc -b --noEmit",
     "start": "tsx src/index.ts"
   },
   "devDependencies": {

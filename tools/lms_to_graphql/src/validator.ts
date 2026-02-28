@@ -24,13 +24,15 @@ export class Validator {
     // 2. Referential Integrity Validation
     // We attempt this even if schema validation failed, providing the structure allows it.
     if (data && typeof data === 'object' && 'entities' in data) {
-      const integrityErrors = this.checkReferentialIntegrity(data as LogicalModel);
+      const integrityErrors = this.checkReferentialIntegrity(
+        data as LogicalModel,
+      );
       errors.push(...integrityErrors);
     }
 
     return {
       valid: errors.length === 0,
-      errors
+      errors,
     };
   }
 
@@ -48,7 +50,9 @@ export class Validator {
       if (entity.relationships) {
         for (const [relName, rel] of Object.entries(entity.relationships)) {
           if (!entityNames.has(rel.target)) {
-            errors.push(`Reference Error: Entity '${entityName}' relationship '${relName}' points to missing entity '${rel.target}'`);
+            errors.push(
+              `Reference Error: Entity '${entityName}' relationship '${relName}' points to missing entity '${rel.target}'`,
+            );
           }
         }
       }
