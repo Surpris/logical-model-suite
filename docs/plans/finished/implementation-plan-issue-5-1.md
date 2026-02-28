@@ -53,6 +53,6 @@
 
 ## 4. 検証項目
 
-- [ ] `packages/core` がエラーなくビルドできること。
-- [ ] `tools/lms_to_ts-interface` で `tsc --noEmit` を実行し、すべてのモジュール解決エラーが解消されていること。
-- [ ] `npm run test` 等の既存のタスクが動作すること。
+- [x] `packages/core` がエラーなくビルドできること。
+- [x] `tools/lms_to_ts-interface` で `tsc --noEmit` を実行し、すべてのモジュール解決エラーが解消されていること。
+- [x] `npm run test` 等の既存のタスクが動作すること。
