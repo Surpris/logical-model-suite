@@ -4,7 +4,7 @@
 
 `tools/` 配下の各ツールのテストコードを実装する。
 
-## Phase 1: lms_to_ts-interface のテストの実装
+## Phase 1: lms_to_ts-interface のテストの実装　→　完了
 
 `tools/lms_to_ts-interface` に必要なテストを以下の手順で実装する。
 
@@ -12,7 +12,7 @@
 2. テストコードを実装する。
 3. テストがすべて通ることを確認する。テスト対象の機能の実装に問題がある場合、それらの問題を解消する。
 
-## Phase 2: lms_to_prisma のテストの実装
+## Phase 2: lms_to_prisma のテストの実装　→　完了
 
 `tools/lms_to_prisma` に必要なテストを以下の手順で実装する。
 
@@ -20,7 +20,7 @@
 2. テストコードを実装する。
 3. テストがすべて通ることを確認する。テスト対象の機能の実装に問題がある場合、それらの問題を解消する
 
-## Phase 3: lms_to_graphql のテストの実装
+## Phase 3: lms_to_graphql のテストの実装　→　完了
 
 `tools/lms_to_graphql` に必要なテストを以下の手順で実装する。
 

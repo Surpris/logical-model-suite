@@ -97,9 +97,89 @@ describe("PrismaSchemaBuilder", () => {
       expect(enumDef).toContain("Embargoed");
       expect(enumDef).toContain("}");
     });
+
+    it("should handle Enum options that are invalid or duplicated", () => {
+      const entityName = "TestEntity";
+      const entity: Entity = {
+        description: "Entity with weird enum",
+        attributes: {
+          weird_enum: {
+            type: "Enum",
+            description: "Weird",
+            options: ["A", "A", "Normal Value", "  "],
+          },
+        },
+      };
+
+      const builder = new PrismaSchemaBuilder();
+      const enums = builder.generateEnums(entityName, entity);
+
+      expect(enums).toHaveLength(1);
+      const enumDef = enums[0];
+      expect(enumDef).toContain("enum TestEntityWeirdEnum {");
+      expect(enumDef).toContain("  A\n");
+      expect(enumDef).toContain('  A_2 @map("A")\n');
+      expect(enumDef).toContain('Normal_Value @map("Normal Value")');
+      expect(enumDef).toContain('Option_4 @map("  ")');
+    });
+
+    it("should handle reserved words as entity names safely", () => {
+      const entityName = "String";
+      const entity: Entity = {
+        description: "Reserved word entity",
+        attributes: {
+          name: {
+            type: "String",
+            description: "Name",
+          },
+        },
+      };
+
+      const builder = new PrismaSchemaBuilder();
+      const result = builder.convertEntity(entityName, entity);
+      expect(result).toContain("model String_ {");
+    });
   });
 
   describe("build", () => {
+    it("should resolve 1:N relationships with missing target gracefully", () => {
+      const schema: LogicalDataModelIntermediateRepresentationSchema = {
+        schema_version: "1.0",
+        model_name: "TestModel",
+        entities: {
+          Project: {
+            description: "Project",
+            attributes: {
+              name: { type: "String", description: "Name", required: true },
+            },
+            relationships: {
+              datasets: {
+                target: "NonExistentEntity",
+                cardinality: "1:N",
+                description: "Missing target",
+                attributes: {
+                  added_at: {
+                    type: "DateTime",
+                    description: "Date added to project",
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const builder = new PrismaSchemaBuilder();
+      const result = builder.build(schema);
+
+      // Should still generate Project model
+      expect(result).toContain("model Project {");
+      // Target does not exist in entities, so it just adds relation field to source
+      expect(result).toContain(
+        'datasets NonExistentEntity[] @relation("Datasets")',
+      );
+    });
+
     it("should resolve 1:N relationships", () => {
       const schema: LogicalDataModelIntermediateRepresentationSchema = {
         schema_version: "1.0",
