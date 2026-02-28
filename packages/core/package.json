@@ -20,7 +20,8 @@
     "format": "prettier --write \"{src,scripts}/*.{ts,tsx,css,html}\"",
     "lint": "eslint \"{src,scripts}/*.{ts,tsx}\" --fix",
     "test": "vitest run",
-    "type-check": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
     "generate:types": "ts-node scripts/generate-types.ts"
   },
   "keywords": [],

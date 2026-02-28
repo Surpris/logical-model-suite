@@ -1,6 +1,7 @@
 {
   "name": "lms-to-graphql",
   "version": "1.0.0",
+  "type": "module",
   "description": "Logical Model Schema to GraphQL Converter",
   "main": "dist/index.js",
   "scripts": {
@@ -9,7 +10,8 @@
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
     "typecheck": "npm run lint:fix && tsc -b --noEmit",
-    "start": "tsx src/index.ts"
+    "start": "tsx src/index.ts",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.3",

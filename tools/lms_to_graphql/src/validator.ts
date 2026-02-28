@@ -1,5 +1,5 @@
 import { LogicalModelValidator, ErrorObject } from '@lms/core';
-import { LogicalModel, Entity, Relationship } from './types.js';
+import { LogicalModel } from './types.js';
 
 /**
  * Validates the logical model using @lms/core validator and additional referential integrity checks.
@@ -10,7 +10,7 @@ export class Validator {
    * @param data The data to validate.
    * @returns An object containing a validity flag and a list of error strings.
    */
-  public validate(data: any): { valid: boolean; errors: string[] } {
+  public validate(data: unknown): { valid: boolean; errors: string[] } {
     const errors: string[] = [];
 
     // 1. Schema Validation (via @lms/core)

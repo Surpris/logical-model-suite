@@ -72,8 +72,9 @@ async function processFile(filePath: string, outputDir?: string) {
 
     fs.writeFileSync(outputPath, sdl);
     console.log(`✨ GraphQL Schema saved to: ${outputPath}`);
-  } catch (e: any) {
-    console.error(`Error processing file: ${e.message}`);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e);
+    console.error(`Error processing file: ${message}`);
     process.exit(1);
   }
 }

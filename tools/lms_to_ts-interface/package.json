@@ -11,7 +11,8 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "lint:spectral": "spectral lint",
     "test": "node ./dist/bin/lms-val.js ../../samples/jsps_dmp/logical_model.yaml",
-    "type-check": "tsc -b --noEmit",
+    "typecheck": "tsc -b --noEmit",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
     "validate": "node ./dist/bin/lms-val.js",
     "generate": "node ./dist/bin/lms-gen.js",
     "all": "npm run validate && npm run generate"

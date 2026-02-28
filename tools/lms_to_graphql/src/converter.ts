@@ -89,14 +89,9 @@ function convertEntity(name: string, entity: Entity): string {
  * 属性を GraphQL フィールドに変換します。
  * @param name フィールド名
  * @param attr 属性定義
- * @param isEdgeProperty リレーションシップ属性（エッジプロパティ）かどうか
  * @returns GraphQL フィールド定義
  */
-function convertfield(
-  name: string,
-  attr: Attribute,
-  isEdgeProperty: boolean = false,
-): string {
+function convertfield(name: string, attr: Attribute): string {
   let type = mapType(attr.type);
 
   // 主キーの場合は ID 型にする
@@ -203,7 +198,7 @@ function convertRelationshipType(
   // リレーション自体の属性
   if (rel.attributes) {
     for (const [attrName, attr] of Object.entries(rel.attributes)) {
-      lines.push(`  ${convertfield(attrName, attr, true)}`);
+      lines.push(`  ${convertfield(attrName, attr)}`);
     }
   }
 
