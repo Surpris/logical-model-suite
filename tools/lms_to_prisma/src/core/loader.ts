@@ -12,7 +12,9 @@ export function loadLogicalModel(
   const validationResult = LogicalModelValidator.validate(parsed);
 
   if (!validationResult.valid && validationResult.errors) {
-    const errorMessages = validationResult.errors.map(err => `Path ${err.instancePath}: ${err.message}`).join('\n');
+    const errorMessages = validationResult.errors
+      .map((err) => `Path ${err.instancePath}: ${err.message}`)
+      .join("\n");
     throw new Error(`Validation failed:\n${errorMessages}`);
   }
 

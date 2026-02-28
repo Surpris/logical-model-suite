@@ -19,11 +19,11 @@ MCP サーバーを介してツールを公開することで、AI エージェ�
 
 AI エージェントが参照可能な、コンテキスト情報としてのリソースを定義します。
 
-| URI | 名前 | 説明 |
-| :--- | :--- | :--- |
-| `logical-model://current` | 現在の論理モデル | `logical_model.yaml` の最新の内容を提供します。 |
-| `prisma-schema://current` | 生成された Prisma スキーマ | 現在 `prisma/schema.prisma` に出力されている内容を提供します。 |
-| `schema://logical-model-definition` | 論理モデルのメタスキーマ | `logical_model_schema.json` の内容（バリデーションルール）を提供します。 |
+| URI                                 | 名前                       | 説明                                                                     |
+| :---------------------------------- | :------------------------- | :----------------------------------------------------------------------- |
+| `logical-model://current`           | 現在の論理モデル           | `logical_model.yaml` の最新の内容を提供します。                          |
+| `prisma-schema://current`           | 生成された Prisma スキーマ | 現在 `prisma/schema.prisma` に出力されている内容を提供します。           |
+| `schema://logical-model-definition` | 論理モデルのメタスキーマ   | `logical_model_schema.json` の内容（バリデーションルール）を提供します。 |
 
 ---
 

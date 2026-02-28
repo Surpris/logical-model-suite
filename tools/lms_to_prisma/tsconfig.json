@@ -16,9 +16,7 @@
       "@lms/core": ["../../packages/core"]
     }
   },
-  "references": [
-    { "path": "../../packages/core/tsconfig.node.json" }
-  ],
+  "references": [{ "path": "../../packages/core/tsconfig.node.json" }],
   "include": ["src", "tests"],
   "exclude": ["node_modules"],
   "ts-node": {
