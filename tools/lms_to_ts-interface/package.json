@@ -7,11 +7,12 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
-    "lint": "eslint .",
-    "lint:fix": "eslint . --fix",
-    "format": "prettier --write .",
+    "lint": "eslint \"src/*.ts\" --fix",
+    "format": "prettier --write  \"src/*.ts\"",
     "lint:spectral": "spectral lint",
-    "test": "node ./dist/bin/lms-val.js ../../samples/jsps_dmp/logical_model.yaml",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "typecheck": "tsc -b --noEmit",
     "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
     "validate": "node ./dist/bin/lms-val.js",
@@ -31,12 +32,14 @@
     "@stoplight/spectral-functions": "^1.10.1",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.0.9",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^9.39.3",
     "eslint-config-prettier": "^10.1.8",
     "globals": "^17.3.0",
     "prettier": "^3.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^5.9.3",
-    "typescript-eslint": "^8.56.0"
+    "typescript-eslint": "^8.56.0",
+    "vitest": "^4.0.18"
   }
 }
