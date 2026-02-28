@@ -2,9 +2,9 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as yaml from 'js-yaml';
 import { program } from 'commander';
-import { convertLogicalModelToGraphQL } from './converter';
-import { LogicalModel } from './types';
-import { Validator } from './validator';
+import { convertLogicalModelToGraphQL } from './converter.js';
+import { LogicalModel } from './types.js';
+import { Validator } from './validator.js';
 
 /**
  * CLI のエントリポイント。
@@ -44,17 +44,18 @@ async function processFile(filePath: string, outputDir?: string) {
 
     if (!result.valid) {
       console.error('❌ Validation Failed:');
-      result.errors.forEach(err => console.error(`  - ${err}`));
+      result.errors.forEach((err) => console.error(`  - ${err}`));
       process.exit(1);
     } else {
-        console.log('✅ Validation Successful');
+      console.log('✅ Validation Successful');
     }
 
     // GraphQL SDL への変換
     const sdl = convertLogicalModelToGraphQL(model);
 
     // ファイル出力
-    const fileName = path.basename(filePath, path.extname(filePath)) + '.graphql';
+    const fileName =
+      path.basename(filePath, path.extname(filePath)) + '.graphql';
     let outputPath: string;
 
     if (outputDir) {
@@ -71,12 +72,11 @@ async function processFile(filePath: string, outputDir?: string) {
 
     fs.writeFileSync(outputPath, sdl);
     console.log(`✨ GraphQL Schema saved to: ${outputPath}`);
-
-  } catch (e: any) {
-    console.error(`Error processing file: ${e.message}`);
+  } catch (e: unknown) {
+    const message = e instanceof Error ? e.message : String(e);
+    console.error(`Error processing file: ${message}`);
     process.exit(1);
   }
 }
-
 
 main();

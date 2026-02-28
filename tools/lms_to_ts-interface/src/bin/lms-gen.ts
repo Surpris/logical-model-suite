@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import * as fs from 'fs';
 import * as path from 'path';
-import { generateTypeScript } from '../generator';
+import { generateTypeScript } from '../generator.js';
 
 async function main() {
   const targetPath = process.argv[2] || '.';
-  
+
   console.log(`🚀 Starting Generator Process...`);
   console.log(`📂 Target Path: "${targetPath}"`);
 
@@ -16,20 +16,24 @@ async function main() {
     if (stats.isDirectory()) {
       const files = fs.readdirSync(targetPath);
       filesToProcess = files
-        .filter(file => file.endsWith('.yaml') || file.endsWith('.yml'))
-        .map(file => path.join(targetPath, file));
-        
+        .filter((file) => file.endsWith('.yaml') || file.endsWith('.yml'))
+        .map((file) => path.join(targetPath, file));
+
       if (filesToProcess.length === 0) {
         console.warn(`⚠️  No YAML files found in directory: ${targetPath}`);
       }
     } else if (stats.isFile()) {
-       filesToProcess = [targetPath];
+      filesToProcess = [targetPath];
     } else {
-       console.error(`❌ Error: Path '${targetPath}' is valid but not a file or directory.`);
-       process.exit(1);
+      console.error(
+        `❌ Error: Path '${targetPath}' is valid but not a file or directory.`,
+      );
+      process.exit(1);
     }
-  } catch (e: any) {
-    console.error(`❌ Error accessing path '${targetPath}': ${e.message}`);
+  } catch (e: unknown) {
+    console.error(
+      `❌ Error accessing path '${targetPath}': ${(e as Error).message}`,
+    );
     process.exit(1);
   }
 
@@ -47,8 +51,8 @@ async function main() {
 
       fs.writeFileSync(outputFile, tsCode);
       console.log(`✅ Generated: ${outputFile}`);
-    } catch (e: any) {
-      console.error(`❌ Error processing ${inputFile}:`, e.message);
+    } catch (e: unknown) {
+      console.error(`❌ Error processing ${inputFile}:`, (e as Error).message);
     }
   }
   console.log('\n🎉 Generation process completed.');

@@ -1,30 +1,42 @@
 {
   "name": "lms_to_ts-interface",
   "version": "0.1.0",
+  "type": "module",
   "description": "Convert logical data models to TypeScript interfaces",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "test": "ts-node ./src/validate.ts",
-    "validate": "ts-node ./src/validate.ts",
-    "generate": "ts-node ./src/generator.ts",
-    "build": "ts-node ./src/generator.ts",
-    "all": "npm run validate && npm run generate",
-    "lint": "spectral lint"
+    "build": "tsc -b",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write .",
+    "lint:spectral": "spectral lint",
+    "test": "node ./dist/bin/lms-val.js ../../samples/jsps_dmp/logical_model.yaml",
+    "typecheck": "tsc -b --noEmit",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
+    "validate": "node ./dist/bin/lms-val.js",
+    "generate": "node ./dist/bin/lms-gen.js",
+    "all": "npm run validate && npm run generate"
   },
   "keywords": [],
   "author": "Surpris & Gemini",
   "license": "Apache-2.0",
-  "type": "commonjs",
   "dependencies": {
-    "ajv": "^8.17.1",
+    "@lms/core": "*",
     "js-yaml": "^4.1.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.3",
     "@stoplight/spectral-cli": "^6.15.0",
     "@stoplight/spectral-functions": "^1.10.1",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^25.0.9",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.3.0",
+    "prettier": "^3.8.1",
     "ts-node": "^10.9.2",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.0"
   }
 }

@@ -1,0 +1,49 @@
+{
+  "name": "@lms/core",
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Core package for logical model suite containing schemas, types and common logic",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "src/schemas"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "format": "prettier --write \"{src,scripts}/*.{ts,tsx,css,html}\"",
+    "lint": "eslint \"{src,scripts}/*.{ts,tsx}\" --fix",
+    "test": "vitest run",
+    "typecheck": "tsc -b --noEmit",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
+    "generate:types": "ts-node scripts/generate-types.ts"
+  },
+  "keywords": [],
+  "author": "Surpris & Gemini",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^2.1.1",
+    "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.3",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.11.0",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.3.0",
+    "json-schema-to-typescript": "^15.0.4",
+    "prettier": "^3.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "typescript-eslint": "^8.56.0",
+    "vitest": "^4.0.18"
+  }
+}

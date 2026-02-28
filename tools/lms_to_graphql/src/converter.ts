@@ -1,4 +1,4 @@
-import { LogicalModel, Entity, Attribute, Relationship } from './types';
+import { LogicalModel, Entity, Attribute, Relationship } from './types.js';
 
 /**
  * 論理モデルを GraphQL SDL 文字列に変換します。
@@ -20,12 +20,14 @@ export function convertLogicalModelToGraphQL(model: LogicalModel): string {
 
   for (const [entityName, entity] of Object.entries(model.entities)) {
     typeDefinitions.push(convertEntity(entityName, entity));
-    
+
     // 属性を持つリレーションシップの中間型を生成
     if (entity.relationships) {
       for (const [relName, rel] of Object.entries(entity.relationships)) {
         if (rel.attributes) {
-          typeDefinitions.push(convertRelationshipType(entityName, relName, rel));
+          typeDefinitions.push(
+            convertRelationshipType(entityName, relName, rel),
+          );
         }
       }
     }
@@ -87,12 +89,11 @@ function convertEntity(name: string, entity: Entity): string {
  * 属性を GraphQL フィールドに変換します。
  * @param name フィールド名
  * @param attr 属性定義
- * @param isEdgeProperty リレーションシップ属性（エッジプロパティ）かどうか
  * @returns GraphQL フィールド定義
  */
-function convertfield(name: string, attr: Attribute, isEdgeProperty: boolean = false): string {
+function convertfield(name: string, attr: Attribute): string {
   let type = mapType(attr.type);
-  
+
   // 主キーの場合は ID 型にする
   if (attr.primary_key) {
     type = 'ID';
@@ -114,15 +115,24 @@ function convertfield(name: string, attr: Attribute, isEdgeProperty: boolean = f
  */
 function mapType(type: Attribute['type']): string {
   switch (type) {
-    case 'String': return 'String';
-    case 'Integer': return 'Int';
-    case 'Float': return 'Float';
-    case 'Boolean': return 'Boolean';
-    case 'Date': return 'String';
-    case 'DateTime': return 'String';
-    case 'Text': return 'String';
-    case 'Enum': return 'String'; 
-    default: return 'String';
+    case 'String':
+      return 'String';
+    case 'Integer':
+      return 'Int';
+    case 'Float':
+      return 'Float';
+    case 'Boolean':
+      return 'Boolean';
+    case 'Date':
+      return 'String';
+    case 'DateTime':
+      return 'String';
+    case 'Text':
+      return 'String';
+    case 'Enum':
+      return 'String';
+    default:
+      return 'String';
   }
 }
 
@@ -133,7 +143,11 @@ function mapType(type: Attribute['type']): string {
  * @param rel リレーションシップ定義
  * @returns GraphQL フィールド定義
  */
-function convertRelationshipField(entityName: string, relName: string, rel: Relationship): string {
+function convertRelationshipField(
+  entityName: string,
+  relName: string,
+  rel: Relationship,
+): string {
   let type = rel.target;
 
   // 属性がある場合は中間型を指すようにする
@@ -142,7 +156,10 @@ function convertRelationshipField(entityName: string, relName: string, rel: Rela
   }
 
   // カーディナリティに基づきリスト型にするかどうかを判定
-  const isList = rel.cardinality === '1:N' || rel.cardinality === '0:N' || rel.cardinality === 'N:M';
+  const isList =
+    rel.cardinality === '1:N' ||
+    rel.cardinality === '0:N' ||
+    rel.cardinality === 'N:M';
   if (isList) {
     type = `[${type}]`;
   }
@@ -164,25 +181,29 @@ function convertRelationshipField(entityName: string, relName: string, rel: Rela
  * @param rel リレーションシップ定義
  * @returns 中間型の GraphQL type 定義
  */
-function convertRelationshipType(entityName: string, relName: string, rel: Relationship): string {
-    const typeName = getIntermediateTypeName(entityName, relName);
-    const lines: string[] = [];
-    
-    lines.push(`"""\nRelationship object for ${entityName}.${relName}\n"""`);
-    lines.push(`type ${typeName} {`);
-    
-    // ターゲットフィールド
-    lines.push(`  target: ${rel.target}!`);
-    
-    // リレーション自体の属性
-    if (rel.attributes) {
-      for (const [attrName, attr] of Object.entries(rel.attributes)) {
-        lines.push(`  ${convertfield(attrName, attr, true)}`);
-      }
+function convertRelationshipType(
+  entityName: string,
+  relName: string,
+  rel: Relationship,
+): string {
+  const typeName = getIntermediateTypeName(entityName, relName);
+  const lines: string[] = [];
+
+  lines.push(`"""\nRelationship object for ${entityName}.${relName}\n"""`);
+  lines.push(`type ${typeName} {`);
+
+  // ターゲットフィールド
+  lines.push(`  target: ${rel.target}!`);
+
+  // リレーション自体の属性
+  if (rel.attributes) {
+    for (const [attrName, attr] of Object.entries(rel.attributes)) {
+      lines.push(`  ${convertfield(attrName, attr)}`);
     }
-    
-    lines.push('}');
-    return lines.join('\n');
+  }
+
+  lines.push('}');
+  return lines.join('\n');
 }
 
 /**
@@ -212,4 +233,3 @@ function capitalize(s: string): string {
 function decapitalize(s: string): string {
   return s.charAt(0).toLowerCase() + s.slice(1);
 }
-

@@ -10,8 +10,17 @@
     "outDir": "./dist",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "types": ["node", "vitest/globals"]
+    "types": ["node", "vitest/globals"],
+    "baseUrl": ".",
+    "paths": {
+      "@lms/core": ["../../packages/core"]
+    }
   },
+  "references": [{ "path": "../../packages/core/tsconfig.node.json" }],
   "include": ["src", "tests"],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "esm": true,
+    "experimentalSpecifierResolution": "node"
+  }
 }
