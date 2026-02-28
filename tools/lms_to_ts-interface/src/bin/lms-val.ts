@@ -11,8 +11,8 @@ async function main() {
   let validator: ModelValidator;
   try {
     validator = new ModelValidator();
-  } catch (e: any) {
-    console.error(`❌ Validator Initialization Failed: ${e.message}`);
+  } catch (e: unknown) {
+    console.error(`❌ Validator Initialization Failed: ${(e as Error).message}`);
     process.exit(1);
   }
 
@@ -35,8 +35,8 @@ async function main() {
       );
       process.exit(1);
     }
-  } catch (e: any) {
-    console.error(`❌ Error accessing path '${targetPath}': ${e.message}`);
+  } catch (e: unknown) {
+    console.error(`❌ Error accessing path '${targetPath}': ${(e as Error).message}`);
     process.exit(1);
   }
 
@@ -57,8 +57,8 @@ async function main() {
         console.log('');
         errorCount++;
       }
-    } catch (e: any) {
-      console.error(`  ❌ System Error: ${e.message}\n`);
+    } catch (e: unknown) {
+      console.error(`  ❌ System Error: ${(e as Error).message}\n`);
       errorCount++;
     }
   }

@@ -30,8 +30,8 @@ async function main() {
       );
       process.exit(1);
     }
-  } catch (e: any) {
-    console.error(`❌ Error accessing path '${targetPath}': ${e.message}`);
+  } catch (e: unknown) {
+    console.error(`❌ Error accessing path '${targetPath}': ${(e as Error).message}`);
     process.exit(1);
   }
 
@@ -49,8 +49,8 @@ async function main() {
 
       fs.writeFileSync(outputFile, tsCode);
       console.log(`✅ Generated: ${outputFile}`);
-    } catch (e: any) {
-      console.error(`❌ Error processing ${inputFile}:`, e.message);
+    } catch (e: unknown) {
+      console.error(`❌ Error processing ${inputFile}:`, (e as Error).message);
     }
   }
   console.log('\n🎉 Generation process completed.');

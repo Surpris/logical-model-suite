@@ -18,8 +18,8 @@ export class ModelValidator {
 
     try {
       data = yaml.load(yamlContent) as YamlSchema;
-    } catch (e: any) {
-      return { valid: false, errors: [`YAML Parse Error: ${e.message}`] };
+    } catch (e: unknown) {
+      return { valid: false, errors: [`YAML Parse Error: ${(e as Error).message}`] };
     }
 
     // A. Schema Validation (via @lms/core)

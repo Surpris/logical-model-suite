@@ -25,10 +25,7 @@ function getPrimaryKeyType(entityName: string, schema: YamlSchema): string {
   const entity = schema.entities[entityName];
   if (!entity) return 'string'; // Fallback
 
-  for (const [attrName, attr] of Object.entries(entity.attributes) as [
-    string,
-    AttributeDef,
-  ][]) {
+  for (const attr of Object.values(entity.attributes) as AttributeDef[]) {
     if (attr.primary_key) {
       return TYPE_MAPPING[attr.type] || 'string';
     }
