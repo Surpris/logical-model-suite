@@ -1,0 +1,36 @@
+schema_version: "1.0"
+model_name: "SimpleBlog_LogicalModel"
+description: "A simple logical model with User and Post for demonstration."
+
+entities:
+  User:
+    description: "System users"
+    attributes:
+      name:
+        type: "String"
+        description: "User's full name"
+        required: true
+      email:
+        type: "String"
+        description: "Email address"
+        required: true
+    relationships:
+      has_posts:
+        target: "Post"
+        cardinality: "1:N"
+
+  Post:
+    description: "Blog posts written by users"
+    attributes:
+      title:
+        type: "String"
+        description: "Title of the post"
+        required: true
+      content:
+        type: "String"
+        description: "Body content of the post"
+        required: true
+    relationships:
+      written_by:
+        target: "User"
+        cardinality: "1:1"

@@ -15,6 +15,7 @@
     }
   },
   "include": ["src/**/*"],
+  "exclude": ["node_modules"],
   "references": [{ "path": "../../packages/core/tsconfig.node.json" }],
   "ts-node": {
     "esm": true,

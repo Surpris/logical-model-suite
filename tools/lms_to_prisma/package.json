@@ -12,13 +12,14 @@
   },
   "scripts": {
     "build": "tsc -b",
-    "format": "prettier --write .",
-    "lint": "eslint \"{src,tests}/*.ts\" --fix",
+    "format": "prettier --write \"{src,tests,examples}/**/*.ts\"",
+    "lint": "eslint \"{src,tests,examples}/*.ts\" --fix",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc --noEmit",
     "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run build && npm run test",
-    "generate:schema": "tsx src/index.ts"
+    "generate:schema": "tsx src/index.ts",
+    "example:generate": "tsx examples/generate-prisma-schema.ts"
   },
   "dependencies": {
     "@lms/core": "*"

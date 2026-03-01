@@ -1,0 +1,33 @@
+schema_version: '1.0'
+model_name: 'SampleProject'
+
+entities:
+  User:
+    description: 'System user'
+    attributes:
+      id:
+        type: String
+        primary_key: true
+        required: true
+      name:
+        type: String
+        required: true
+      role:
+        type: Enum
+        options: ['Admin', 'User', 'Guest']
+
+  Group:
+    description: 'User group'
+    attributes:
+      id:
+        type: String
+        primary_key: true
+    relationships:
+      has_member:
+        target: User
+        cardinality: '1:N'
+        description: 'Group members'
+        attributes:
+          joined_at:
+            type: DateTime
+            description: 'Date when user joined the group'

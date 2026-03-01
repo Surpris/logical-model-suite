@@ -1,0 +1,12 @@
+# Missing schema_version (required)
+model_name: "InvalidModel"
+description: "An invalid model with missing required fields."
+
+entities:
+  User:
+    description: "A system user."
+    attributes:
+      id:
+        type: "Integer"
+        description: "The unique identifier for the user."
+        primary_key: true

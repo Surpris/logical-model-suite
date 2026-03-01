@@ -50,6 +50,18 @@ To run with a sample, specify the input as follows:
 npm run generate:schema -- --input sample/logical_model.yaml
 ```
 
+### Programmatic Usage (Examples)
+
+You can also use the generator programmatically within your code. We've provided an example script in `examples/generate-prisma-schema.ts`.
+
+To run the example:
+
+```bash
+npm run example:generate
+```
+
+This will generate a Prisma schema from `examples/data/simple_model.yaml` and save it to `examples/data/generated_schema.prisma`.
+
 ### Running Tests
 
 ```bash

@@ -1,0 +1,58 @@
+# GraphQL Schema for GraphQLSampleModel
+
+"""
+A sample model demonstrating GraphQL schema generation features including 1:N relationships and edge properties.
+"""
+
+type Query {
+  user(id: ID!): User
+  project(id: ID!): Project
+}
+
+"""
+A user of the system.
+"""
+type User {
+    "Unique identifier for the user."
+  id: ID!
+    "Full name of the user."
+  name: String!
+    "Email address of the user."
+  email: String!
+    "Projects created by this user."
+  created_projects: [Project]
+}
+
+"""
+A collaborative project.
+"""
+type Project {
+    "Unique identifier for the project."
+  id: ID!
+    "Title of the project."
+  title: String!
+    "Current status of the project."
+  status: String
+    "The user who manages this project."
+  managed_by: ProjectManaged_by!
+    "Users who are members of this project."
+  members: [ProjectMembers]
+}
+
+"""
+Relationship object for Project.managed_by
+"""
+type ProjectManaged_by {
+  target: User!
+    "The date and time when the manager was assigned."
+  assigned_at: String
+}
+
+"""
+Relationship object for Project.members
+"""
+type ProjectMembers {
+  target: User!
+    "The role of the user in this project."
+  role: String
+}
