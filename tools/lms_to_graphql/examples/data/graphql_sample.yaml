@@ -1,0 +1,57 @@
+schema_version: "1.0"
+model_name: "GraphQLSampleModel"
+description: "A sample model demonstrating GraphQL schema generation features including 1:N relationships and edge properties."
+entities:
+  User:
+    description: "A user of the system."
+    attributes:
+      id:
+        type: "String"
+        description: "Unique identifier for the user."
+        primary_key: true
+      name:
+        type: "String"
+        description: "Full name of the user."
+        required: true
+      email:
+        type: "String"
+        description: "Email address of the user."
+        required: true
+    relationships:
+      created_projects:
+        target: "Project"
+        cardinality: "0:N"
+        description: "Projects created by this user."
+
+  Project:
+    description: "A collaborative project."
+    attributes:
+      id:
+        type: "String"
+        description: "Unique identifier for the project."
+        primary_key: true
+      title:
+        type: "String"
+        description: "Title of the project."
+        required: true
+      status:
+        type: "Enum"
+        description: "Current status of the project."
+        options: ["ACTIVE", "ARCHIVED", "DRAFT"]
+    relationships:
+      managed_by:
+        target: "User"
+        cardinality: "1:1"
+        description: "The user who manages this project."
+        attributes:
+          assigned_at:
+            type: "DateTime"
+            description: "The date and time when the manager was assigned."
+      members:
+        target: "User"
+        cardinality: "0:N"
+        description: "Users who are members of this project."
+        attributes:
+          role:
+            type: "String"
+            description: "The role of the user in this project."

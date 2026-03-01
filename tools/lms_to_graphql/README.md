@@ -97,3 +97,22 @@ npm run build
 - `src/validator.ts`: 入力 YAML のバリデーション（スキーマチェック & 参照整合性）。
 - `src/converter.ts`: 論理モデルから GraphQL SDL への変換ロジック。
 - `src/types.ts`: 論理モデルのインターフェース定義。
+
+## Examples
+
+### プログラム内からの実行
+
+開発者がプログラム内から直接コンバーターを呼び出す方法については、以下のサンプルコードを参照してください。
+
+- **サンプルコード**: `tools/lms_to_graphql/examples/generate-graphql.ts`
+- **サンプルデータ**: `tools/lms_to_graphql/examples/data/graphql_sample.yaml`
+
+#### 実行方法
+
+リポジトリのルートディレクトリから以下のコマンドを実行します：
+
+```bash
+npx tsx tools/lms_to_graphql/examples/generate-graphql.ts
+```
+
+このコマンドを実行すると、`tools/lms_to_graphql/examples/data/generated_schema.graphql` が生成されます。
