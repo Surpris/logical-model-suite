@@ -29,7 +29,10 @@ jobs:
       
     - name: Run lint
       run: npm run lint --if-present
-      
+    
+    - name: Run bulid core before tools
+      run: npm run build:core --if-present
+
     - name: Run build
       run: npm run build --if-present
       

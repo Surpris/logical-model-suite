@@ -6,6 +6,7 @@
     "tools/*"
   ],
   "scripts": {
+    "build:core": "npm run build --workspace=core",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
