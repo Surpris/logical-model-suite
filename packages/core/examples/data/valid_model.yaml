@@ -1,0 +1,16 @@
+schema_version: "1.0"
+model_name: "SimpleModel"
+description: "A simple valid logical model for demonstration."
+
+entities:
+  User:
+    description: "A system user."
+    attributes:
+      id:
+        type: "Integer"
+        description: "The unique identifier for the user."
+        primary_key: true
+      username:
+        type: "String"
+        description: "The user's display name."
+        required: true
