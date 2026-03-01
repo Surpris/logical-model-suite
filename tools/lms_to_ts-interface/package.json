@@ -10,8 +10,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
-    "lint": "eslint \"src/*.ts\" --fix",
-    "format": "prettier --write  \"src/*.ts\"",
+    "lint": "eslint \"{src,examples}/**/*.ts\" --fix",
+    "format": "prettier --write  \"{src,examples}/**/*.ts\"",
     "lint:spectral": "spectral lint",
     "test": "vitest run",
     "test:watch": "vitest",

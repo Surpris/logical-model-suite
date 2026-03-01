@@ -53,6 +53,15 @@ Uses Spectral to lint the YAML files against best practices and custom rules.
 npm run lint
 ```
 
+### 4. Examples (Programmatic Usage)
+
+You can call the core generation functions from your TypeScript code. See the `examples` directory for details.
+
+```bash
+# Run the basic generation example
+npx tsx tools/lms_to_ts-interface/examples/basic-generation.ts
+```
+
 ## Model Definition Guide
 
 Define your Logical Model in a YAML file (e.g., `model.yaml`).
