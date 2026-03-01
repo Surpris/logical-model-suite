@@ -1,17 +1,23 @@
 {
   "name": "logical-model-suite",
+  "version": "0.1.0",
+  "description": "Logical Model Suite",
+  "keywords": [],
+  "author": "Surpris & Gemini",
+  "license": "Apache-2.0",
   "private": true,
   "workspaces": [
     "packages/*",
     "tools/*"
   ],
   "scripts": {
-    "build:core": "npm run build --workspace=core",
+    "build:core": "npm run build --workspace=packages",
+    "build:tools": "npm run build --workspace=tools",
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
     "format": "npm run format --workspaces",
     "typecheck": "npm run typecheck --workspaces",
-    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run build && npm run test"
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run build:core && npm run build:tools &&npm run test"
   }
 }
