@@ -8,12 +8,14 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist",
+    "types": ["node", "vitest/globals"],
     "baseUrl": ".",
     "paths": {
       "@lms/core": ["../../packages/core"]
     }
   },
   "include": ["src/**/*"],
+  "references": [{ "path": "../../packages/core/tsconfig.node.json" }],
   "ts-node": {
     "esm": true,
     "experimentalSpecifierResolution": "node"

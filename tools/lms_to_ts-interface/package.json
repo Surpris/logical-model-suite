@@ -2,8 +2,11 @@
   "name": "lms_to_ts-interface",
   "version": "0.1.0",
   "type": "module",
-  "description": "Convert logical data models to TypeScript interfaces",
+  "description": "Logical Model Schema to TypeScript Interface Converter",
   "main": "dist/index.js",
+  "keywords": [],
+  "author": "Surpris & Gemini",
+  "license": "Apache-2.0",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc -b",
@@ -14,14 +17,11 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "typecheck": "tsc -b --noEmit",
-    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run build && npm run test",
     "validate": "node ./dist/bin/lms-val.js",
     "generate": "node ./dist/bin/lms-gen.js",
     "all": "npm run validate && npm run generate"
   },
-  "keywords": [],
-  "author": "Surpris & Gemini",
-  "license": "Apache-2.0",
   "dependencies": {
     "@lms/core": "*",
     "js-yaml": "^4.1.1"

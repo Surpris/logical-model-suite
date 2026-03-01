@@ -15,7 +15,7 @@ async function main() {
     .version('1.0.0')
     .argument('<file>', 'Path to logical model YAML file')
     .option('-o, --output <dir>', 'Output directory for GraphQL schema')
-    .action(async (file, options) => {
+    .action(async (file: string, options: { output?: string }) => {
       await processFile(file, options.output);
     });
 
