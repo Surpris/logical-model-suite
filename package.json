@@ -9,6 +9,8 @@
     "build": "npm run build --workspaces",
     "test": "npm run test --workspaces",
     "lint": "npm run lint --workspaces",
-    "format": "npm run format --workspaces"
+    "format": "npm run format --workspaces",
+    "typecheck": "npm run typecheck --workspaces",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run build && npm run test"
   }
 }

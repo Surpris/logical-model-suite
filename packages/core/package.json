@@ -21,7 +21,7 @@
     "lint": "eslint \"{src,scripts}/*.{ts,tsx}\" --fix",
     "test": "vitest run",
     "typecheck": "tsc -b --noEmit",
-    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run test && npm run build",
+    "prepublishOnly": "npm run format && npm run lint && npm run typecheck && npm run build && npm run test",
     "generate:types": "ts-node scripts/generate-types.ts"
   },
   "keywords": [],
